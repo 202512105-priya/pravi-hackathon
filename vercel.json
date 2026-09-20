@@ -2,6 +2,11 @@
   "buildCommand": "npm install && npm run build",
   "outputDirectory": "dist",
   "devCommand": "npm run dev",
+  "functions": {
+    "api/**/*.py": {
+      "includeFiles": "backend/family_id_360.db"
+    }
+  },
   "rewrites": [
     {
       "source": "/api/v1/(.*)",
