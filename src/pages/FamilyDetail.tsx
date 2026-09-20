@@ -60,6 +60,7 @@ export function FamilyDetail({ overrideFamilyId }: { overrideFamilyId?: string }
               submittedAt: a.submitted_at
             })),
             benefits: [],
+            familyEvents: [],
             events: [],
             conflicts: [],
             alerts: []
