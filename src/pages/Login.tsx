@@ -7,7 +7,6 @@ import { ShieldCheck } from 'lucide-react';
 const DEMO_USERS = [
   { label: 'State Admin', username: 'admin', role: 'STATE_ADMIN' },
   { label: 'Ahmedabad District Officer', username: 'officer_ahmedabad', role: 'DISTRICT_OFFICER' },
-  { label: 'Health Department Officer', username: 'health_dept', role: 'DEPARTMENT_OFFICER' },
   { label: 'Field Worker (Sanand)', username: 'field_sanand', role: 'FIELD_WORKER' },
   { label: 'System Auditor', username: 'auditor', role: 'AUDITOR' },
   { label: 'Citizen Portal (Ravi Sharma)', username: 'citizen_ravi', role: 'CITIZEN' }
