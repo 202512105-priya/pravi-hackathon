@@ -7,9 +7,12 @@ is_vercel = os.environ.get("VERCEL") == "1"
 if is_vercel:
     db_path = "/tmp/family_id_360.db"
     source_db = os.path.join(os.path.dirname(__file__), "..", "..", "family_id_360.db")
-    if not os.path.exists(db_path):
-        if os.path.exists(source_db):
+    
+    # Force overwrite if the /tmp db is empty, too small (corrupted/blank), or doesn't exist
+    if os.path.exists(source_db):
+        if not os.path.exists(db_path) or os.path.getsize(db_path) < 50000:
             shutil.copy2(source_db, db_path)
+    
     db_uri = f"sqlite:///{db_path}"
 else:
     db_uri = os.environ.get("DATABASE_URL", "sqlite:///./family_id_360.db")
