@@ -70,3 +70,17 @@ Clicking on a demo will guide you step-by-step through:
 - `/schemes`: Pipeline tracking of applications by scheme.
 - `/conflicts`: Cross-department identity matching and conflict resolution.
 - `/analytics`: Synthetic statewide and district-level aggregations.
+
+## Demo Credentials
+
+All seeded test accounts use the exact same password for ease of demonstration.
+
+**Password for all users**: \`demo\`
+
+### Available Test Roles:
+- **State Admin**: \`admin\`
+- **Ahmedabad District Officer**: \`officer_ahmedabad\`
+- **Surat District Officer**: \`officer_surat\`
+- **Field Worker (Sanand)**: \`field_sanand\`
+- **System Auditor**: \`auditor\`
+- **Citizen Portal (Ravi Sharma)**: \`citizen_ravi\`
