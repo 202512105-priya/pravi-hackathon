@@ -104,6 +104,7 @@ class UserResponse(BaseModel):
     district: Optional[str] = None
     taluka: Optional[str] = None
     department: Optional[str] = None
+    linked_family_id: Optional[str] = None
 
 class TokenResponse(BaseModel):
     access_token: str

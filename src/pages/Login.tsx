@@ -9,7 +9,8 @@ const DEMO_USERS = [
   { label: 'Ahmedabad District Officer', username: 'officer_ahmedabad', role: 'DISTRICT_OFFICER' },
   { label: 'Health Department Officer', username: 'health_dept', role: 'DEPARTMENT_OFFICER' },
   { label: 'Field Worker (Sanand)', username: 'field_sanand', role: 'FIELD_WORKER' },
-  { label: 'System Auditor', username: 'auditor', role: 'AUDITOR' }
+  { label: 'System Auditor', username: 'auditor', role: 'AUDITOR' },
+  { label: 'Citizen Portal (Ravi Sharma)', username: 'citizen_ravi', role: 'CITIZEN' }
 ];
 
 export function Login() {
@@ -32,7 +33,11 @@ export function Login() {
       }, true);
       
       login(data.access_token, data.user);
-      navigate('/dashboard');
+      if (data.user.role === 'CITIZEN') {
+        navigate('/my-family');
+      } else {
+        navigate('/dashboard');
+      }
     } catch (err) {
       setError('Login failed. Check credentials.');
     } finally {

@@ -7,6 +7,7 @@ interface User {
   district?: string;
   taluka?: string;
   department?: string;
+  linked_family_id?: string;
 }
 
 interface AuthContextType {

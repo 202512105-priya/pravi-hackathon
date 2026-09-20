@@ -10,9 +10,10 @@ import { useAuth } from '../contexts/AuthContext';
 import { getFamilyDetail } from '../data/familyDetailMock';
 import type { DetailedFamily } from '../data/familyDetailMock';
 
-export function FamilyDetail() {
+export function FamilyDetail({ overrideFamilyId }: { overrideFamilyId?: string }) {
   const { hasRole } = useAuth();
-  const { familyId } = useParams<{ familyId: string }>();
+  const { familyId: routeFamilyId } = useParams<{ familyId: string }>();
+  const familyId = overrideFamilyId || routeFamilyId;
   
   const [family, setFamily] = useState<DetailedFamily | null>(null);
   const [loading, setLoading] = useState(true);
@@ -83,7 +84,7 @@ export function FamilyDetail() {
         <span className="text-slate-800">{family.id}</span>
       </div>
 
-      <FamilyHeader family={family} canEdit={!hasRole(['AUDITOR'])} />
+      <FamilyHeader family={family} canEdit={!hasRole(['AUDITOR', 'CITIZEN'])} />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
@@ -93,7 +94,7 @@ export function FamilyDetail() {
         </div>
         
         <div className="space-y-6">
-          <AttentionRequired family={family} canEdit={!hasRole(['AUDITOR'])} />
+          <AttentionRequired family={family} canEdit={!hasRole(['AUDITOR', 'CITIZEN'])} />
           <EventTimeline family={family} />
         </div>
       </div>

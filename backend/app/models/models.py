@@ -12,6 +12,7 @@ class User(Base):
     district = Column(String, nullable=True)
     taluka = Column(String, nullable=True)
     department = Column(String, nullable=True)
+    linked_family_id = Column(String, nullable=True)
 
 class Family(Base):
     __tablename__ = "families"

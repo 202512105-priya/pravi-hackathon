@@ -30,7 +30,8 @@ def seed_db():
         User(username="officer_surat", hashed_password=pw, role="DISTRICT_OFFICER", district="Surat"),
         User(username="health_dept", hashed_password=pw, role="DEPARTMENT_OFFICER", department="Health"),
         User(username="field_sanand", hashed_password=pw, role="FIELD_WORKER", taluka="Sanand"),
-        User(username="auditor", hashed_password=pw, role="AUDITOR")
+        User(username="auditor", hashed_password=pw, role="AUDITOR"),
+        User(username="citizen_ravi", hashed_password=pw, role="CITIZEN", linked_family_id="GJ-F-10293")
     ]
     for u in users:
         db.add(u)

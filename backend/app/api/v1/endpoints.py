@@ -30,7 +30,8 @@ def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db:
             "role": user.role,
             "district": user.district,
             "taluka": user.taluka,
-            "department": user.department
+            "department": user.department,
+            "linked_family_id": user.linked_family_id
         }
     }
 

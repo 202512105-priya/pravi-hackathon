@@ -16,6 +16,7 @@ import { Events } from './pages/Events';
 import { EventDetail } from './pages/EventDetail';
 import { Analytics } from './pages/Analytics';
 import { DistrictAnalytics } from './pages/DistrictAnalytics';
+import { CitizenDashboard } from './pages/CitizenDashboard';
 import { GuidedDemoProvider, GuidedDemoOverlay } from './components/demo/GuidedDemo';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -35,6 +36,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/login" element={<Login />} />
+            <Route path="/my-family" element={<ProtectedRoute><CitizenDashboard /></ProtectedRoute>} />
             
             <Route path="/" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
               <Route index element={<Navigate to="/dashboard" replace />} />

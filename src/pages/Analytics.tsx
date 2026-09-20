@@ -16,7 +16,9 @@ import { ArrowRight, Activity, FileWarning, SlidersHorizontal, UserPlus } from '
 
 export function Analytics() {
   const [incomeLimit, setIncomeLimit] = useState(300000);
-  const projectedFamilies = Math.floor((incomeLimit - 200000) / 1000 * 45) + 121;
+  const [selectedScheme, setSelectedScheme] = useState('SCH-HOU-01');
+  const schemeMultiplier = selectedScheme === 'SCH-HOU-01' ? 45 : selectedScheme === 'SCH-PDS-01' ? 85 : 20;
+  const projectedFamilies = Math.floor((incomeLimit - 200000) / 1000 * schemeMultiplier) + 121;
   const navigate = useNavigate();
   const [scope, setScope] = useState<'State' | 'District'>('State');
   const [selectedDistrict, setSelectedDistrict] = useState('Ahmedabad');
@@ -119,10 +121,19 @@ export function Analytics() {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center bg-slate-50 p-6 rounded-xl border border-slate-100">
-          <div className="col-span-2 space-y-6">
+                    <div className="col-span-2 space-y-6">
+            <div>
+              <label className="block text-sm font-bold text-slate-700 mb-2">Select Scheme</label>
+              <select value={selectedScheme} onChange={e => setSelectedScheme(e.target.value)} className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                <option value="SCH-HOU-01">Housing Upgrade Grant (Housing)</option>
+                <option value="SCH-PDS-01">Antyodaya Anna Yojana (PDS)</option>
+                <option value="SCH-EDU-01">Higher Education Scholarship (Education)</option>
+                <option value="SCH-WCD-01">Maternal Health Support (WCD)</option>
+              </select>
+            </div>
             <div>
               <label className="flex justify-between text-sm font-bold text-slate-700 mb-2">
-                <span>Scheme Income Limit (₹)</span>
+                <span>Simulated Income Limit (₹)</span>
                 <span className="text-indigo-700">₹{(incomeLimit).toLocaleString()} (Simulated)</span>
               </label>
               <input type="range" min="200000" max="500000" step="10000" value={incomeLimit} onChange={(e) => setIncomeLimit(Number(e.target.value))} className="w-full accent-indigo-600" />
