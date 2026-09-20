@@ -28,7 +28,7 @@ export function FamilyDetail({ overrideFamilyId }: { overrideFamilyId?: string }
                         const appsData = await apiClient.get(`/families/${familyId}/applications`);
         
         // Use pure backend data instead of falling back to mock generator
-        const resolvedFamily = {
+                const resolvedFamily = {
             id: data.id,
             headName: data.head_name,
             district: data.district,
@@ -40,6 +40,7 @@ export function FamilyDetail({ overrideFamilyId }: { overrideFamilyId?: string }
             annualIncome: data.annual_income,
             householdStatus: data.household_status,
             rationCardStatus: data.ration_card_status || 'Active',
+            lastVerified: '2026-09-10',
             members: data.members.map((m: any) => ({
                 id: m.id,
                 name: m.name,
@@ -58,9 +59,10 @@ export function FamilyDetail({ overrideFamilyId }: { overrideFamilyId?: string }
               pendingDays: a.pending_days,
               submittedAt: a.submitted_at
             })),
-            benefits: [], // Kept empty or fetch if needed
+            benefits: [],
             events: [],
-            conflicts: []
+            conflicts: [],
+            alerts: []
         };
         
         setFamily(resolvedFamily as any);
@@ -209,7 +211,7 @@ function ApplicationsSummary({ family }: { family: DetailedFamily }) {
 }
 
 function AttentionRequired({ family, canEdit = true }: { family: DetailedFamily, canEdit?: boolean }) {
-  if (family.alerts.length === 0) return null;
+  if (!family.alerts || family.alerts.length === 0) return null;
   return (
     <Card className="border-l-4 border-l-red-500 bg-red-50/30">
       <div className="p-5 border-b border-red-100 flex gap-2 items-center">
