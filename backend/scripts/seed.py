@@ -68,9 +68,39 @@ def seed_db():
         )
         db.add(fam)
         
+        
         # Members
-        mem_id_base = f"MEM-{fid}"
         members = []
+        if i == 1:
+            ravi_members = [
+                {"id": f"MEM-{fid}-1", "name": "Ravi Sharma", "age": 42, "gender": "M", "relation": "Head"},
+                {"id": f"MEM-{fid}-2", "name": "Anita Sharma", "age": 39, "gender": "F", "relation": "Spouse"},
+                {"id": f"MEM-{fid}-3", "name": "Rahul Sharma", "age": 16, "gender": "M", "relation": "Son"},
+                {"id": f"MEM-{fid}-4", "name": "Priya Sharma", "age": 14, "gender": "F", "relation": "Daughter"}
+            ]
+            for m in ravi_members:
+                mem = Member(
+                    id=m["id"], family_id=fid, name=m["name"], age=m["age"], gender=m["gender"], 
+                    relation=m["relation"], aadhaar_ref=f"AADHAAR-{random.randint(1000, 9999)}"
+                )
+                db.add(mem)
+                members.append(mem)
+                
+            # Applications for Ravi
+            app1 = Application(id=f"APP-{fid}-HOU", family_id=fid, beneficiary_member_id=f"MEM-{fid}-1", scheme_id="SCH-HOU-01", submitted_at="2026-08-01", current_stage="Document Verification", status="Delayed", pending_days=42)
+            app2 = Application(id=f"APP-{fid}-EDU", family_id=fid, beneficiary_member_id=f"MEM-{fid}-4", scheme_id="SCH-EDU-01", submitted_at="2026-08-15", current_stage="Approved", status="Normal", pending_days=0)
+            app3 = Application(id=f"APP-{fid}-WCD", family_id=fid, beneficiary_member_id=f"MEM-{fid}-2", scheme_id="SCH-WCD-01", submitted_at="2026-09-01", current_stage="Delivered", status="Normal", pending_days=0)
+            db.add_all([app1, app2, app3])
+            
+            # Benefits for Ravi
+            ben1 = Benefit(id=f"BEN-{fid}-1", family_id=fid, beneficiary_member_id=f"MEM-{fid}-4", scheme_id="SCH-EDU-01", application_id=app2.id, status="Disbursed", sanctioned_amount=12000, paid_amount=12000, last_transaction="2026-09-10")
+            ben2 = Benefit(id=f"BEN-{fid}-2", family_id=fid, beneficiary_member_id=f"MEM-{fid}-2", scheme_id="SCH-WCD-01", application_id=app3.id, status="Pending", sanctioned_amount=5000, paid_amount=0, last_transaction=None)
+            db.add_all([ben1, ben2])
+            
+            # Skip the random generation for Ravi
+            continue
+            
+        mem_id_base = f"MEM-{fid}"
         for m_idx in range(1, random.randint(3, 6)):
             mem = Member(
                 id=f"{mem_id_base}-{m_idx}",
@@ -84,20 +114,7 @@ def seed_db():
             db.add(mem)
             members.append(mem)
 
-        # Applications
-        # Guarantee a delayed housing application for Journey 1
-        if i == 1:
-            app = Application(
-                id=f"APP-{fid}-HOU",
-                family_id=fid,
-                beneficiary_member_id=members[0].id,
-                scheme_id="SCH-HOU-01",
-                submitted_at="2026-08-01",
-                current_stage="Document Verification",
-                status="Delayed",
-                pending_days=42
-            )
-            db.add(app)
+        # Applications (handled above for Ravi)
         
         for b_idx in range(1, 3):
             sch = random.choice(db_schemes)
