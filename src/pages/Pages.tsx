@@ -139,9 +139,31 @@ export function Dashboard() {
   );
 }
 
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
+import { apiClient } from '../api/client';
+import { X, Search } from 'lucide-react';
+
 export function Families() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
+  const [families, setFamilies] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function load() {
+      try {
+        const data = await apiClient.get('/families');
+        setFamilies(data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    load();
+  }, []);
 
   return (
     <div>
@@ -152,28 +174,32 @@ export function Families() {
           Add New Family
         </button>
       </div>
-      <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
-        <table className="w-full text-left">
-          <thead className="bg-slate-50 text-slate-500 border-b">
+      
+      <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+        {loading ? (
+          <div className="p-8 text-center text-slate-500">Loading families from database...</div>
+        ) : (
+        <table className="w-full text-left text-sm">
+          <thead className="bg-slate-50 text-slate-500 border-b border-slate-100">
             <tr>
               <th className="px-6 py-4 font-medium">Family ID</th>
-              <th className="px-6 py-4 font-medium">Head of Family</th>
+              <th className="px-6 py-4 font-medium">Head Name</th>
               <th className="px-6 py-4 font-medium">District</th>
-              <th className="px-6 py-4 font-medium">Status</th>
+              <th className="px-6 py-4 font-medium">Ration Card</th>
               <th className="px-6 py-4 font-medium">Action</th>
             </tr>
           </thead>
-          <tbody>
-            {mockFamilies.map((fam) => (
+          <tbody className="divide-y divide-slate-100">
+            {families.map((fam) => (
               <tr key={fam.id} className="border-b last:border-0 hover:bg-slate-50">
                 <td className="px-6 py-4 font-medium text-primary">{fam.id}</td>
-                <td className="px-6 py-4">{fam.headName}</td>
+                <td className="px-6 py-4">{fam.head_name}</td>
                 <td className="px-6 py-4">{fam.district}</td>
                 <td className="px-6 py-4">
                   <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    fam.rationCardStatus === 'Active' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+                    fam.ration_card_status === 'Active' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
                   }`}>
-                    {fam.rationCardStatus}
+                    {fam.ration_card_status}
                   </span>
                 </td>
                 <td className="px-6 py-4">
@@ -183,6 +209,7 @@ export function Families() {
             ))}
           </tbody>
         </table>
+        )}
       </div>
     </div>
   );

@@ -184,3 +184,16 @@ def create_family(fam_data: FamilyCreate, db: Session = Depends(get_db), current
     db.commit()
     db.refresh(new_fam)
     return new_fam
+
+@router.get("/families", response_model=list[FamilyDetail])
+def read_families(skip: int = 0, limit: int = 100, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    query = db.query(Family)
+    
+    if current_user.role == "DISTRICT_OFFICER" and current_user.district:
+        query = query.filter(Family.district == current_user.district)
+    if current_user.role == "TALUKA_OFFICER" and current_user.taluka:
+        query = query.filter(Family.taluka == current_user.taluka)
+    if current_user.role == "FIELD_WORKER" and current_user.taluka:
+        query = query.filter(Family.taluka == current_user.taluka)
+        
+    return query.offset(skip).limit(limit).all()
