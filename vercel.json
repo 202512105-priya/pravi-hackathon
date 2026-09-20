@@ -3,6 +3,9 @@
   "outputDirectory": "dist",
   "devCommand": "npm run dev",
   "functions": {
+    "api/index.py": {
+      "includeFiles": "backend/family_id_360.db"
+    },
     "api/**/*.py": {
       "includeFiles": "backend/family_id_360.db"
     }
