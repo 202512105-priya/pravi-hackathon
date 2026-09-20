@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { mockFamilies } from '../data/mockData';
 import { useAuth } from '../contexts/AuthContext';
 import { apiClient } from '../api/client';
 import { X } from 'lucide-react';
@@ -139,11 +138,7 @@ export function Dashboard() {
   );
 }
 
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
-import { apiClient } from '../api/client';
-import { X, Search } from 'lucide-react';
+
 
 export function Families() {
   const [isModalOpen, setIsModalOpen] = useState(false);

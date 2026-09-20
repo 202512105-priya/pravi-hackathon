@@ -24,40 +24,46 @@ export function FamilyDetail({ overrideFamilyId }: { overrideFamilyId?: string }
       try {
         const data = await apiClient.get(`/families/${familyId}`);
         
-        const fallback = getFamilyDetail(familyId);
         
-                const appsData = await apiClient.get(`/families/${familyId}/applications`);
+                        const appsData = await apiClient.get(`/families/${familyId}/applications`);
         
-        // Merge Backend Data into the detailed mock structure
-        if (fallback) {
-            fallback.id = data.id;
-            fallback.headName = data.head_name;
-            fallback.district = data.district;
-            fallback.taluka = data.taluka;
-            fallback.village = data.village;
-            fallback.applications = appsData.map((a: any) => ({
-              id: a.id,
-              familyId: a.family_id,
-              beneficiaryMemberId: a.beneficiary_member_id,
-              schemeName: a.scheme_id, // Simplify
-              currentStage: a.current_stage,
-              status: a.status,
-              pendingDays: a.pending_days,
-              submittedAt: a.submitted_at
-            }));
-            fallback.rationCardStatus = data.ration_card_status || 'Active';
-            fallback.members = data.members.map((m: any) => ({
+        // Use pure backend data instead of falling back to mock generator
+        const resolvedFamily = {
+            id: data.id,
+            headName: data.head_name,
+            district: data.district,
+            taluka: data.taluka,
+            village: data.village,
+            pincode: data.pincode,
+            address: data.address || '',
+            rationCardType: data.ration_card_type,
+            annualIncome: data.annual_income,
+            householdStatus: data.household_status,
+            rationCardStatus: data.ration_card_status || 'Active',
+            members: data.members.map((m: any) => ({
                 id: m.id,
                 name: m.name,
                 age: m.age,
                 gender: m.gender,
                 relation: m.relation,
                 aadhaarRef: m.aadhaar_ref
-            }));
-            setFamily({ ...fallback });
-        } else {
-            setFamily(null);
-        }
+            })),
+            applications: appsData.map((a: any) => ({
+              id: a.id,
+              familyId: a.family_id,
+              beneficiaryMemberId: a.beneficiary_member_id,
+              schemeName: a.scheme_id,
+              currentStage: a.current_stage,
+              status: a.status,
+              pendingDays: a.pending_days,
+              submittedAt: a.submitted_at
+            })),
+            benefits: [], // Kept empty or fetch if needed
+            events: [],
+            conflicts: []
+        };
+        
+        setFamily(resolvedFamily as any);
       } catch (err) {
         console.error("Backend fetch failed, falling back to mock generator", err);
         setFamily(getFamilyDetail(familyId));
