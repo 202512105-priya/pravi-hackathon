@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { apiClient } from '../api/client';
 import { X } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 function AddFamilyModal({ isOpen, onClose, onSuccess }: any) {
   const [formData, setFormData] = useState({
@@ -198,7 +198,7 @@ export function Families() {
                   </span>
                 </td>
                 <td className="px-6 py-4">
-                  <a href={`/families/${fam.id}`} className="text-primary hover:underline">View</a>
+                  <Link to={`/families/${fam.id}`} className="text-primary hover:underline">View</Link>
                 </td>
               </tr>
             ))}
